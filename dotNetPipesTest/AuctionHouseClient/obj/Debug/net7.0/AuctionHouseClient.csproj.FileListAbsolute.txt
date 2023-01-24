@@ -1,0 +1,15 @@
+C:\dziwne_rzeczy\VScode\sem5\dotNet\namedPipes\dotNetPipesTest\AuctionHouseClient\obj\Debug\net7.0\AuctionHouseClient.csproj.AssemblyReference.cache
+C:\dziwne_rzeczy\VScode\sem5\dotNet\namedPipes\dotNetPipesTest\AuctionHouseClient\obj\Debug\net7.0\AuctionHouseClient.GeneratedMSBuildEditorConfig.editorconfig
+C:\dziwne_rzeczy\VScode\sem5\dotNet\namedPipes\dotNetPipesTest\AuctionHouseClient\obj\Debug\net7.0\AuctionHouseClient.AssemblyInfoInputs.cache
+C:\dziwne_rzeczy\VScode\sem5\dotNet\namedPipes\dotNetPipesTest\AuctionHouseClient\obj\Debug\net7.0\AuctionHouseClient.AssemblyInfo.cs
+C:\dziwne_rzeczy\VScode\sem5\dotNet\namedPipes\dotNetPipesTest\AuctionHouseClient\obj\Debug\net7.0\AuctionHouseClient.csproj.CoreCompileInputs.cache
+C:\dziwne_rzeczy\VScode\sem5\dotNet\namedPipes\dotNetPipesTest\AuctionHouseClient\bin\Debug\net7.0\AuctionHouseClient.exe
+C:\dziwne_rzeczy\VScode\sem5\dotNet\namedPipes\dotNetPipesTest\AuctionHouseClient\bin\Debug\net7.0\AuctionHouseClient.deps.json
+C:\dziwne_rzeczy\VScode\sem5\dotNet\namedPipes\dotNetPipesTest\AuctionHouseClient\bin\Debug\net7.0\AuctionHouseClient.runtimeconfig.json
+C:\dziwne_rzeczy\VScode\sem5\dotNet\namedPipes\dotNetPipesTest\AuctionHouseClient\bin\Debug\net7.0\AuctionHouseClient.dll
+C:\dziwne_rzeczy\VScode\sem5\dotNet\namedPipes\dotNetPipesTest\AuctionHouseClient\bin\Debug\net7.0\AuctionHouseClient.pdb
+C:\dziwne_rzeczy\VScode\sem5\dotNet\namedPipes\dotNetPipesTest\AuctionHouseClient\obj\Debug\net7.0\AuctionHouseClient.dll
+C:\dziwne_rzeczy\VScode\sem5\dotNet\namedPipes\dotNetPipesTest\AuctionHouseClient\obj\Debug\net7.0\refint\AuctionHouseClient.dll
+C:\dziwne_rzeczy\VScode\sem5\dotNet\namedPipes\dotNetPipesTest\AuctionHouseClient\obj\Debug\net7.0\AuctionHouseClient.pdb
+C:\dziwne_rzeczy\VScode\sem5\dotNet\namedPipes\dotNetPipesTest\AuctionHouseClient\obj\Debug\net7.0\AuctionHouseClient.genruntimeconfig.cache
+C:\dziwne_rzeczy\VScode\sem5\dotNet\namedPipes\dotNetPipesTest\AuctionHouseClient\obj\Debug\net7.0\ref\AuctionHouseClient.dll
