@@ -1,2 +1,2 @@
 # auction_service
-Simple auction service created for study project
+Simple auction service created for study project hallo
