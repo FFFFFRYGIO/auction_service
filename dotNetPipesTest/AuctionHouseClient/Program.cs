@@ -9,29 +9,86 @@ namespace AuctionHouseClient
 {
     internal class Program
     {
+        private static string name;
+        private static NamedPipeClientStream privateCommunicationPipe;
         static void Main(string[] args)
         {
             Console.WriteLine("Client Started");
-            Demo2();
+            
+            ConnectServer();
+            if (name != "")
+            {
+                PrivateConnection();
+            }
+            
+            Communication();
+            
             Console.ReadKey();
         }
 
-        static void Demo2()
+        private static void ConnectServer()
         {
+            name = Console.ReadLine();
             //connect
             var pipe = new NamedPipeClientStream(".", "demo2pipe", PipeDirection.InOut);
             
             Console.WriteLine("Waiting for connection");
-            pipe.Connect();
+            while (!pipe.IsConnected)
+            {
+                try
+                {
+                    pipe.Connect();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+                Thread.Sleep(100);
+            }
             Console.WriteLine("Connected to the sever");
             Console.WriteLine(Process.GetCurrentProcess().Id);
             
-            //read data
+            //inform sever
 
-            using StreamReader sr = new StreamReader(pipe);
+            StreamString sw = new StreamString(pipe);
+
+            sw.WriteString(name);
+            
+            pipe.Close();
+
+            /*
+            
+            */
+        }
+
+        private static void PrivateConnection()
+        {
+            privateCommunicationPipe = new NamedPipeClientStream(".", name, PipeDirection.InOut);
+            
+            Console.WriteLine("Connecting to private line");
+            while (!privateCommunicationPipe.IsConnected)
+            {
+                try
+                {
+                    privateCommunicationPipe.Connect();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+                Thread.Sleep(100);
+            }
+            Console.WriteLine("Connected to the private communication line");
+        }
+
+        private static void Communication()
+        {
+            StreamString sr = new StreamString(privateCommunicationPipe);
 
             string? msg;
-            while ((msg = sr.ReadLine()) != null)
+            while ((msg = sr.ReadString()) != null)
             {
                 Console.WriteLine(msg);
             }

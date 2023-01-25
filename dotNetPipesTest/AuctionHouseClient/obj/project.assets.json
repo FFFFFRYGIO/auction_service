@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\dziwne_rzeczy\\VScode\\sem5\\dotNet\\namedPipes\\dotNetPipesTest\\AuctionHouseClient\\AuctionHouseClient.csproj",
+      "projectUniqueName": "C:\\dziwne_rzeczy\\VScode\\sem5\\dotNet\\cos\\auction_service\\dotNetPipesTest\\AuctionHouseClient\\AuctionHouseClient.csproj",
       "projectName": "AuctionHouseClient",
-      "projectPath": "C:\\dziwne_rzeczy\\VScode\\sem5\\dotNet\\namedPipes\\dotNetPipesTest\\AuctionHouseClient\\AuctionHouseClient.csproj",
+      "projectPath": "C:\\dziwne_rzeczy\\VScode\\sem5\\dotNet\\cos\\auction_service\\dotNetPipesTest\\AuctionHouseClient\\AuctionHouseClient.csproj",
       "packagesPath": "C:\\Users\\barte\\.nuget\\packages\\",
-      "outputPath": "C:\\dziwne_rzeczy\\VScode\\sem5\\dotNet\\namedPipes\\dotNetPipesTest\\AuctionHouseClient\\obj\\",
+      "outputPath": "C:\\dziwne_rzeczy\\VScode\\sem5\\dotNet\\cos\\auction_service\\dotNetPipesTest\\AuctionHouseClient\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\barte\\AppData\\Roaming\\NuGet\\NuGet.Config",
