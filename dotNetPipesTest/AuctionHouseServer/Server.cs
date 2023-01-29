@@ -6,24 +6,13 @@ namespace AuctionHouseServer
     {
         //private static NamedPipeServerStream pipe;
         private PipeServer pipeServer;
-        private List<PipeServer> pipeServers;
+        private List<privPipe> pipeServers;
 
         public Server()
         {
             pipeServer = new PipeServer("demo2pipe");
-            pipeServers = new List<PipeServer>();
+            pipeServers = new List<privPipe>();
         }
-        
-        /*
-        static void Main(string[] args)
-        {
-            Console.WriteLine("halko");
-
-            //pipe = new NamedPipeServerStream("demoPipe", PipeDirection.InOut, 1);
-            
-            run();
-        }
-        */
 
         /*
          protected async Task ExecuteAsync(CancellationToken stoppingToken) // ..
@@ -40,7 +29,7 @@ namespace AuctionHouseServer
             Thread connecting = new Thread(ConnectClient);
             connecting.Start();
             
-            await ClientCommunication();
+            ClientCommunication();
         }
 
         private void ConnectClient()
@@ -57,36 +46,68 @@ namespace AuctionHouseServer
                     //msg = Console.ReadLine();
                     msg = pipeServer.Read();
                     
-                    pipeServers.Add(new PipeServer(msg));
-                    
+                    pipeServers.Add(new privPipe(new PipeServer(msg)));
+
                     Console.WriteLine(msg);
                     pipeServer.close();
                     pipeServer = new PipeServer("demo2pipe");
+                    //pipeServer.WaitConnection();
                 }
                 //pipeServer.WriteIfConnected(msg);
                 //Console.WriteLine("server message");
                 Thread.Sleep(1000);
             }
-            Console.ReadKey();
+            //Console.ReadKey();
         }
 
-        private async Task ClientCommunication()
+        private void ClientCommunication()
         {
             while (true)
             {
-                int i = 0;
-                foreach (var pipe in pipeServers)
+                foreach (var pipeServer in pipeServers)
                 {
-                    Console.WriteLine("komunikacja");
-                    if (pipe.isConnected())
+                    //Console.WriteLine(pipeServer.isCreated);
+                    //Console.WriteLine("isCOnnecvted: " + pipe.isConnected());
+                    if (false) //pipeServer.isCreated
                     {
-                        pipe.WriteIfConnected("hello " + i);
+                        Console.WriteLine("Client: " + pipeServer.pipe.getName() + " status: " + pipeServer.task.Status);
                     }
-
-                    i++;
+                    if (!pipeServer.isCreated)
+                    {
+                        pipeServer.task = new Task(() =>
+                        {
+                            communicate(pipeServer.pipe);
+                        });
+                        
+                        pipeServer.task.Start();
+                        pipeServer.isCreated = true;
+                    }
+                    else if (pipeServer.task.Status != TaskStatus.Running)
+                    {
+                        pipeServer.task.Dispose();
+                        pipeServer.task = new Task(() =>
+                        {
+                            communicate(pipeServer.pipe);
+                        });
+                        
+                        pipeServer.task.Start();
+                    }
                 }
 
-                Thread.Sleep(1000);
+                Thread.Sleep(500);
+            }
+        }
+
+        private async Task communicate(PipeServer pipe)
+        {
+            string msg;
+            if (pipe.isConnected())
+            {
+                //pipe.WriteIfConnected("hello ");
+                pipe.WaitConnection();
+                msg = pipe.Read();
+                //Console.WriteLine("From: " + pipe.getName() + " " + msg);
+                pipe.WriteIfConnected("From: " + pipe.getName() + " " + msg);
             }
         }
     }

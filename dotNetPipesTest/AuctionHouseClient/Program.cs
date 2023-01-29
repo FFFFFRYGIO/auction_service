@@ -21,7 +21,7 @@ namespace AuctionHouseClient
                 PrivateConnection();
             }
             
-            Communication();
+            //Communication();
             
             Console.ReadKey();
         }
@@ -81,6 +81,19 @@ namespace AuctionHouseClient
                 Thread.Sleep(100);
             }
             Console.WriteLine("Connected to the private communication line");
+            
+            StreamString pipeWR = new StreamString(privateCommunicationPipe);
+            string? msg;
+
+            while (true)
+            {
+                msg = Console.ReadLine();
+                pipeWR.WriteString(msg);
+                privateCommunicationPipe.WaitForPipeDrain();
+                privateCommunicationPipe.Flush();
+                msg = pipeWR.ReadString();
+                Console.WriteLine(msg);
+            }
         }
 
         private static void Communication()

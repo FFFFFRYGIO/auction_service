@@ -31,8 +31,9 @@ public class PipeServer
         {
             if (!underlyingPipe.IsConnected)
             {
-                underlyingPipe.WaitForConnectionAsync();
+                underlyingPipe.WaitForConnection();
             }
+            //underlyingPipe.WaitForConnection();
         }
         catch (Exception e)
         {
@@ -50,6 +51,8 @@ public class PipeServer
                 StreamString sw = new StreamString(underlyingPipe);
                 //await sw.WriteLineAsync(message);
                 sw.WriteString(message);
+                underlyingPipe.WaitForPipeDrain();
+                underlyingPipe.Flush();
             }
         }
         catch(Exception ex)
@@ -93,6 +96,11 @@ public class PipeServer
     public bool isConnected()
     {
         return underlyingPipe.IsConnected;
+    }
+
+    public string getName()
+    {
+        return pipeName;
     }
 
     public void close()
