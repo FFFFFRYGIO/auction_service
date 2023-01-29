@@ -1,4 +1,5 @@
 using System.IO.Pipes;
+using System.Text.Json;
 
 namespace AuctionHouseServer;
 
@@ -51,6 +52,27 @@ public class PipeServer
                 StreamString sw = new StreamString(underlyingPipe);
                 //await sw.WriteLineAsync(message);
                 sw.WriteString(message);
+                underlyingPipe.WaitForPipeDrain();
+                underlyingPipe.Flush();
+            }
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex);
+            Dispose();
+            InitPipe();
+        }
+    }
+    
+    public async void WriteIfConnected(CommandJSON message)
+    {
+        try
+        {
+            if (underlyingPipe.IsConnected)
+            {
+                StreamString sw = new StreamString(underlyingPipe);
+                //await sw.WriteLineAsync(message);
+                sw.WriteString(JsonSerializer.Serialize(message));
                 underlyingPipe.WaitForPipeDrain();
                 underlyingPipe.Flush();
             }

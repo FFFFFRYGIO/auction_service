@@ -106,8 +106,11 @@ namespace AuctionHouseServer
                 //pipe.WriteIfConnected("hello ");
                 pipe.WaitConnection();
                 msg = pipe.Read();
+                CommandJSON message = new CommandJSON();
+                message.message = msg;
                 //Console.WriteLine("From: " + pipe.getName() + " " + msg);
-                pipe.WriteIfConnected("From: " + pipe.getName() + " " + msg);
+                //pipe.WriteIfConnected("From: " + pipe.getName() + " " + msg);
+                pipe.WriteIfConnected(message);
             }
         }
     }

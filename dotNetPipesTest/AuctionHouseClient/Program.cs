@@ -4,6 +4,7 @@
 
 using System.Diagnostics;
 using System.IO.Pipes;
+using System.Text.Json;
 
 namespace AuctionHouseClient
 {
@@ -92,7 +93,8 @@ namespace AuctionHouseClient
                 privateCommunicationPipe.WaitForPipeDrain();
                 privateCommunicationPipe.Flush();
                 msg = pipeWR.ReadString();
-                Console.WriteLine(msg);
+                CommandJSON reply = JsonSerializer.Deserialize<CommandJSON>(msg);
+                Console.WriteLine(reply.message);
             }
         }
 
