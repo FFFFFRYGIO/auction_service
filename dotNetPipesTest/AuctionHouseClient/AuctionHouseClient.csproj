@@ -7,4 +7,37 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Content Include="bin\Debug\net7.0\AuctionHouseClient.deps.json" />
+      <Content Include="bin\Debug\net7.0\AuctionHouseClient.dll" />
+      <Content Include="bin\Debug\net7.0\AuctionHouseClient.exe" />
+      <Content Include="bin\Debug\net7.0\AuctionHouseClient.pdb" />
+      <Content Include="bin\Debug\net7.0\AuctionHouseClient.runtimeconfig.json" />
+      <Content Include="obj\AuctionHouseClient.csproj.nuget.dgspec.json" />
+      <Content Include="obj\AuctionHouseClient.csproj.nuget.g.props" />
+      <Content Include="obj\AuctionHouseClient.csproj.nuget.g.targets" />
+      <Content Include="obj\Debug\net7.0\apphost.exe" />
+      <Content Include="obj\Debug\net7.0\AuctionHouseClient.AssemblyInfoInputs.cache" />
+      <Content Include="obj\Debug\net7.0\AuctionHouseClient.assets.cache" />
+      <Content Include="obj\Debug\net7.0\AuctionHouseClient.csproj.AssemblyReference.cache" />
+      <Content Include="obj\Debug\net7.0\AuctionHouseClient.csproj.CoreCompileInputs.cache" />
+      <Content Include="obj\Debug\net7.0\AuctionHouseClient.csproj.FileListAbsolute.txt" />
+      <Content Include="obj\Debug\net7.0\AuctionHouseClient.dll" />
+      <Content Include="obj\Debug\net7.0\AuctionHouseClient.GeneratedMSBuildEditorConfig.editorconfig" />
+      <Content Include="obj\Debug\net7.0\AuctionHouseClient.genruntimeconfig.cache" />
+      <Content Include="obj\Debug\net7.0\AuctionHouseClient.pdb" />
+      <Content Include="obj\Debug\net7.0\refint\AuctionHouseClient.dll" />
+      <Content Include="obj\Debug\net7.0\ref\AuctionHouseClient.dll" />
+      <Content Include="obj\project.assets.json" />
+      <Content Include="obj\project.nuget.cache" />
+      <Content Include="obj\project.packagespec.json" />
+      <Content Include="obj\rider.project.restore.info" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Include="obj\Debug\net7.0\.NETCoreApp,Version=v7.0.AssemblyAttributes.cs" />
+      <Compile Include="obj\Debug\net7.0\AuctionHouseClient.AssemblyInfo.cs" />
+      <Compile Include="obj\Debug\net7.0\AuctionHouseClient.GlobalUsings.g.cs" />
+    </ItemGroup>
+
 </Project>
