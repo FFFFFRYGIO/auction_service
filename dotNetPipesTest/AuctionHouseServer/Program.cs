@@ -9,7 +9,7 @@ using AuctionHouseServer;
 
 namespace AuctionHouseServer
 {
-    internal class Program
+    internal partial class Program
     {
         private static Server server;
         
