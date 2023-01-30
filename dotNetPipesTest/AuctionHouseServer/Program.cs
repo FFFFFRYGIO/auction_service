@@ -15,7 +15,7 @@ namespace AuctionHouseServer
         
         static void Main(string[] args)
         {
-            Console.WriteLine("halko");
+            Console.WriteLine("HALOOOO");
 
             server = new Server();
             server.run();
