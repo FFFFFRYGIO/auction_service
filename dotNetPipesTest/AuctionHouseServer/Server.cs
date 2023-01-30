@@ -130,15 +130,14 @@ namespace AuctionHouseServer
                 Response message = new Response();
                 
                 var rec = JsonSerializer.Deserialize<Base>(msg);
-                string snd;
-                
+
                 switch (rec.Type)
                 {
                     case "create":
                         var received = JsonSerializer.Deserialize<CreateAuction>(msg);
-                        clientsList.Find(c => c.GetName() == pipe.getName()).CreateAuction(ThingsForAuction.Camera.ToString(), received.Value, received.Time, auctionList);
+                        message.message = clientsList.Find(c => c.GetName() == pipe.getName()).CreateAuction(ThingsForAuction.Camera.ToString(), received.Value, received.Time, auctionList);
                         //snd = "Auction Created";
-                        message.message = "Auction Created";
+                        //message.message = "Auction Created";
                         break;
                     case "showauctions":
                         var received2 = JsonSerializer.Deserialize<ShowAuctions>(msg);

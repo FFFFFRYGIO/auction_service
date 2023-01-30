@@ -4,7 +4,7 @@ using Regex = System.Text.RegularExpressions.Regex;
 
 namespace ConsoleApplication1
 {
-    public class Auction : IValidateName
+    public class Auction : IValidateName, IDisposable
     {
         public readonly int Id;
         public string Name;
@@ -12,6 +12,8 @@ namespace ConsoleApplication1
         public int OwnerId;
         public int? WinnerId;
         public DateTime TimeToEnd;
+        
+        private bool disposed = false;
 
         public Auction(int id, string name, int cost, int auctionTime, int ownerId)
         {
@@ -71,6 +73,26 @@ namespace ConsoleApplication1
         {
             var regex = new Regex("^[A-Z][a-z]+\\b(?:\\s+[A-Z][a-z]+\\b)*$");
             return regex.IsMatch(name);
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+        
+        protected virtual void Dispose(bool disposing)
+        {
+            
+            if(!this.disposed)
+            {
+                disposed = true;
+            }
+        }
+
+        ~Auction()
+        {
+            Dispose(disposing: false);
         }
     }
 }

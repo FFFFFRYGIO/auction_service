@@ -66,7 +66,7 @@ namespace ConsoleApplication1
             }
         }
 
-        public abstract void CreateAuction(string auctionName, int initialValue, int auctionTime,
+        public abstract string CreateAuction(string auctionName, int initialValue, int auctionTime,
             AuctionList<int> auctionList);
     }
 }
