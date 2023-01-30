@@ -12,6 +12,7 @@ namespace AuctionHouseClient
     {
         private static string name;
         private static NamedPipeClientStream privateCommunicationPipe;
+        private static bool loop = true;
         static void Main(string[] args)
         {
             Console.WriteLine("Client Started");
@@ -86,29 +87,39 @@ namespace AuctionHouseClient
             StreamString pipeWR = new StreamString(privateCommunicationPipe);
             string? msg;
 
-            while (true)
+            while (loop)
             {
                 Menu.drawMenu(name);
                 //msg = Console.ReadLine();
-                pipeWR.WriteString(Menu.Select());
-                privateCommunicationPipe.WaitForPipeDrain();
-                privateCommunicationPipe.Flush();
-                msg = pipeWR.ReadString();
-                Response reply = JsonSerializer.Deserialize<Response>(msg);
-                if (reply.message != "list")
+                string ask = Menu.Select();
+
+                if (ask != "quit")
                 {
-                    Console.WriteLine(reply.message);
+                    pipeWR.WriteString(ask);
+                    privateCommunicationPipe.WaitForPipeDrain();
+                    privateCommunicationPipe.Flush();
+                    msg = pipeWR.ReadString();
+                    Response reply = JsonSerializer.Deserialize<Response>(msg);
+                    if (reply.message != "list")
+                    {
+                        Console.WriteLine(reply.message);
+                    }
+                    else
+                    {
+                        foreach (var auctionString in JsonSerializer.Deserialize<List<string>>(reply.auctionList))
+                        {
+                            Console.WriteLine(auctionString);
+                        }
+                    }
+
+                    Console.ReadKey();
+                    Console.Clear();
                 }
                 else
                 {
-                    foreach (var auctionString in JsonSerializer.Deserialize<List<string>>(reply.auctionList))
-                    {
-                        Console.WriteLine(auctionString);
-                    }
+                    loop = false;
+                    privateCommunicationPipe.Close();
                 }
-
-                Console.ReadKey();
-                Console.Clear();
             }
         }
 

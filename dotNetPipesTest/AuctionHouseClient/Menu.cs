@@ -13,6 +13,7 @@ public static class Menu
         Console.WriteLine("2. See all auctions");
         Console.WriteLine("3. Bid auction");
         Console.WriteLine("4. Fund your account");
+        Console.WriteLine("5. Quit");
     }
 
     public static string Select()
@@ -56,6 +57,9 @@ public static class Menu
                 addFund.value = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
                 // FundAccount(fundAmount)
                 return JsonSerializer.Serialize(addFund);
+                break;
+            case "5":
+                return "quit";
                 break;
             default:
                 Console.WriteLine("Error, wrong action");
