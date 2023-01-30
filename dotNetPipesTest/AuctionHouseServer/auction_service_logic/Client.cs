@@ -8,13 +8,13 @@ namespace ConsoleApplication1
         protected readonly int Id;
         private int _money;
         private static int _idCounter = 1;
-        public string Name;
+        private string _Name;
 
         protected Client(int initMoney, string name)
         {
             Id = _idCounter++;
             _money = initMoney;
-            Name = name;
+            _Name = name;
         }
 
         public int GetMoney()
@@ -27,35 +27,45 @@ namespace ConsoleApplication1
             return Id;
         }
         
-        public void Bid(int auctionId, int amount, AuctionList<int> auctionList, List<Client> clientsList)
+        public string GetName()
         {
-            auctionList.Bid(auctionId, amount, Id, clientsList);
+            return _Name;
         }
         
-        public void UpdateMoney(char op, int amount)
+        
+        public string Bid(int auctionId, int amount, AuctionList<int> auctionList, List<Client> clientsList)
+        {
+            return auctionList.Bid(auctionId, amount, Id, clientsList);
+        }
+        
+        public string UpdateMoney(char op, int amount)
         {
             switch (op)
             {
                 case '+':
                     _money += amount;
+                    return "Balance updated";
                     break;
                 case '-':
                     if (amount > _money)
+                    {
                         Console.WriteLine("Error, Client {0} don't have enough money", Id);
+                        return "Error, Client " + Id + " don't have enough money";
+                    }
                     else
+                    {
                         _money -= amount;
+                        return "Operation succeeded";
+                    }
+                        
                     break;
                 default:
                     Console.WriteLine("Error, wrong operator");
+                    return "Error, wrong operator";
                     break;
             }
         }
-        
-        public void PrintAllAuctions(AuctionList<int> auctions)
-        {
-            auctions.PrintAllAuctions();
-        }
-        
+
         public abstract void CreateAuction(string auctionName, int initialValue, int auctionTime,
             AuctionList<int> auctionList);
     }

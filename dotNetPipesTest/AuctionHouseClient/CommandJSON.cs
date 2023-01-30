@@ -5,6 +5,11 @@ public class CommandJSON
     public string message { get; set; }
 }
 
+public class Response : CommandJSON
+{
+    public string auctionList { get; set; }
+}
+
 public class Base
 {
     public string Type { get; set; }

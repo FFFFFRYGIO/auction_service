@@ -46,6 +46,7 @@ namespace AuctionHouseServer
             Console.WriteLine(Process.GetCurrentProcess().Id);
 
             string? msg;
+            bool vipClientSwitch = false;
             while(true)
             {
                 if (pipeServer.isConnected())
@@ -55,7 +56,17 @@ namespace AuctionHouseServer
                     msg = pipeServer.Read();
                     
                     pipeServers.Add(new privPipe(new PipeServer(msg)));
-                    clientsList.Add(new Auctioneer(2000, msg));
+                    // odd vips
+                    if (vipClientSwitch)
+                    {
+                        clientsList.Add(new AuctioneerVip(2000, msg));
+                        vipClientSwitch = !vipClientSwitch;
+                    }
+                    else
+                    {
+                        clientsList.Add(new Auctioneer(2000, msg));
+                        vipClientSwitch = !vipClientSwitch;
+                    }
 
                     Console.WriteLine(msg);
                     pipeServer.close();
@@ -73,6 +84,7 @@ namespace AuctionHouseServer
         {
             while (true)
             {
+                auctionList.CloseAuctions(clientsList);
                 foreach (var pipeServer in pipeServers)
                 {
                     //Console.WriteLine(pipeServer.isCreated);
@@ -115,13 +127,48 @@ namespace AuctionHouseServer
                 //pipe.WriteIfConnected("hello ");
                 pipe.WaitConnection();
                 msg = pipe.Read();
-
-                var rec = JsonSerializer.Deserialize(msg);
-                CommandJSON message = new CommandJSON();
-                message.message = msg;
+                Response message = new Response();
+                
+                var rec = JsonSerializer.Deserialize<Base>(msg);
+                string snd;
+                
+                switch (rec.Type)
+                {
+                    case "create":
+                        var received = JsonSerializer.Deserialize<CreateAuction>(msg);
+                        clientsList.Find(c => c.GetName() == pipe.getName()).CreateAuction(ThingsForAuction.Camera.ToString(), received.Value, received.Time, auctionList);
+                        //snd = "Auction Created";
+                        message.message = "Auction Created";
+                        break;
+                    case "showauctions":
+                        var received2 = JsonSerializer.Deserialize<ShowAuctions>(msg);
+                        List<string> send = auctionList.PrintAllAuctions();
+                        string stringList = JsonSerializer.Serialize(send);
+                        if (send.Count() > 0)
+                        {
+                            message.message = "list";
+                        }
+                        else
+                        {
+                            message.message = "No auctions currently running!";
+                        }
+                        message.auctionList = stringList;
+                        Console.WriteLine(message.auctionList);
+                        //snd = JsonSerializer.Serialize(send);
+                        break;
+                    case "bid":
+                        var received3 = JsonSerializer.Deserialize<BidAuction>(msg);
+                        message.message = clientsList.Find(c => c.GetName() == pipe.getName()).Bid(received3.auctionId, received3.bidValue,auctionList,clientsList);
+                        break;
+                    case "addfunds":
+                        var received4 = JsonSerializer.Deserialize<Fund>(msg);
+                        message.message = clientsList.Find(c => c.GetName() == pipe.getName()).UpdateMoney('+', received4.value);
+                        break;
+                }
+                //message.message = "msg";
                 //Console.WriteLine("From: " + pipe.getName() + " " + msg);
                 //pipe.WriteIfConnected("From: " + pipe.getName() + " " + msg);
-                pipe.WriteIfConnected(message);
+                pipe.WriteIfConnected(JsonSerializer.Serialize(message));
             }
         }
     }

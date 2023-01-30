@@ -51,9 +51,13 @@ namespace ConsoleApplication1
                 return auction.Id;
             }
         }
-        private void DeleteAuction(int auctionId)
+        private void DeleteAuction(int auctionId, List<Client> clientsList)
         {
             var auctionToRemove = _auctionList.FirstOrDefault(a => a.Id == auctionId);
+            if (auctionToRemove.WinnerId != null)
+            {
+                clientsList.Find(c => c.GetId() == auctionToRemove.OwnerId).UpdateMoney('+', auctionToRemove.Cost);
+            }
             if (auctionToRemove != null)
             {
                 _auctionList.Remove(auctionToRemove);
@@ -64,11 +68,12 @@ namespace ConsoleApplication1
             }
         }
 
-        public void Bid(int auctionId, int amount, int clientId, List<Client> clientsList)
+        public string Bid(int auctionId, int amount, int clientId, List<Client> clientsList)
         {
             if (clientsList.Find(c => c.GetId() == clientId).GetMoney() < amount)
             {
-                Console.WriteLine("Error, Client {0} don't have enough money ({1})", clientId, amount);
+                Console.WriteLine("Error, Client {0} doesn't have enough money ({1})", clientId, amount);
+                return "Error, Client " + clientId + " doesn't have enough money (" + amount + ")";
             }
             else
             {
@@ -80,16 +85,43 @@ namespace ConsoleApplication1
                 else
                 {
                     Console.WriteLine("Error, Auction with id {0} was not found", auctionId);
+                    return "Error, Auction with id " + auctionId + " was not found";
                 }
             }
+
+            return "Bid Accepted";
         }
         
-        public void PrintAllAuctions()
+        public List<String> PrintAllAuctions()
         {
             var auctionStrings = _auctionList.StringRepresentation();
+            Console.WriteLine("Auctions printed successfully");
             foreach (var auctionString in auctionStrings)
             {
                 Console.WriteLine(auctionString);
+            }
+
+            return auctionStrings;
+        }
+        
+        public void CloseAuctions(List<Client> clientList)
+        {
+            List<int> toDelete = new List<int>();
+            foreach (var auction in _auctionList)
+            {
+                var warsawTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+                var currentTimeInWarsaw = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, warsawTimeZone.Id);
+
+                if (auction.TimeToEnd < currentTimeInWarsaw)
+                {
+                    toDelete.Add(auction.Id);
+                    
+                }
+            }
+
+            foreach (var auctionId in toDelete)
+            {
+                DeleteAuction(auctionId, clientList);
             }
         }
     }

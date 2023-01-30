@@ -25,7 +25,10 @@ namespace ConsoleApplication1
                 Id = id;
                 Name = Regex.Replace(name.Trim(), @"\s+", " ");
                 Cost = cost;
-                TimeToEnd = DateTime.UtcNow.AddMinutes(auctionTime);
+                var warsawTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+                var currentTimeInWarsaw = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, warsawTimeZone.Id);
+
+                TimeToEnd = currentTimeInWarsaw.AddMinutes(auctionTime);
                 OwnerId = ownerId;
             }
         }

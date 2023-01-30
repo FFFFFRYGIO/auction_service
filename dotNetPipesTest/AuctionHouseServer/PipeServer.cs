@@ -1,5 +1,6 @@
 using System.IO.Pipes;
 using System.Text.Json;
+using AuctionHouseClient;
 
 namespace AuctionHouseServer;
 
