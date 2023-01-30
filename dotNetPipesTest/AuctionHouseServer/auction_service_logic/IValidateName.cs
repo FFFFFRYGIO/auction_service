@@ -1,6 +1,6 @@
 ﻿namespace ConsoleApplication1
 {
-    public interface IInterface
+    public interface IValidateName
     {
         bool ValidateName(string name);
     }

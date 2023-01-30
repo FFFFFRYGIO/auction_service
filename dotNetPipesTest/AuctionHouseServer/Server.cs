@@ -1,4 +1,7 @@
 using System.Diagnostics;
+using System.Text.Json;
+using AuctionHouseClient;
+using ConsoleApplication1;
 
 namespace AuctionHouseServer
 {
@@ -8,10 +11,15 @@ namespace AuctionHouseServer
         private PipeServer pipeServer;
         private List<privPipe> pipeServers;
 
+        private AuctionList<int> auctionList;
+        private List<Client> clientsList;
+
         public Server()
         {
             pipeServer = new PipeServer("demo2pipe");
             pipeServers = new List<privPipe>();
+            auctionList = new AuctionList<int>(1, 1);
+            clientsList = new List<Client>();
         }
 
         /*
@@ -47,6 +55,7 @@ namespace AuctionHouseServer
                     msg = pipeServer.Read();
                     
                     pipeServers.Add(new privPipe(new PipeServer(msg)));
+                    clientsList.Add(new Auctioneer(2000, msg));
 
                     Console.WriteLine(msg);
                     pipeServer.close();
@@ -106,6 +115,8 @@ namespace AuctionHouseServer
                 //pipe.WriteIfConnected("hello ");
                 pipe.WaitConnection();
                 msg = pipe.Read();
+
+                var rec = JsonSerializer.Deserialize(msg);
                 CommandJSON message = new CommandJSON();
                 message.message = msg;
                 //Console.WriteLine("From: " + pipe.getName() + " " + msg);

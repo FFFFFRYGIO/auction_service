@@ -8,11 +8,13 @@ namespace ConsoleApplication1
         protected readonly int Id;
         private int _money;
         private static int _idCounter = 1;
+        public string Name;
 
-        protected Client(int initMoney)
+        protected Client(int initMoney, string name)
         {
             Id = _idCounter++;
             _money = initMoney;
+            Name = name;
         }
 
         public int GetMoney()

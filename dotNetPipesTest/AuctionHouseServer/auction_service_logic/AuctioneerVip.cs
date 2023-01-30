@@ -4,7 +4,7 @@ namespace ConsoleApplication1
 {
     public class AuctioneerVip : Client
     {
-        public AuctioneerVip(int initMoney) : base(initMoney)
+        public AuctioneerVip(int initMoney,string name) : base(initMoney,name)
         {
             Console.WriteLine("AuctioneerVIP with id {0} crated", Id);
         }

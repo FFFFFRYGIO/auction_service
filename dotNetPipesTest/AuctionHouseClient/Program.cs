@@ -88,6 +88,7 @@ namespace AuctionHouseClient
 
             while (true)
             {
+                Menu.drawMenu(name);
                 msg = Console.ReadLine();
                 pipeWR.WriteString(msg);
                 privateCommunicationPipe.WaitForPipeDrain();

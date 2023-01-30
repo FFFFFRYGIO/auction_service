@@ -4,7 +4,7 @@ using Regex = System.Text.RegularExpressions.Regex;
 
 namespace ConsoleApplication1
 {
-    public class Auction : IInterface
+    public class Auction : IValidateName
     {
         public readonly int Id;
         public string Name;
