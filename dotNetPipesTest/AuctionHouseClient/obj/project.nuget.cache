@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "hS+lJPQ+8ubYO9TTWnb85Pr9KlM3xMSAHNBLFBV2jyv7R3QdEgd1K5mBkqFhbClMfdkabu9MB3trgakxSaQA3Q==",
+  "dgSpecHash": "pVRptMq4keF71AkTXqvtUaqPxqyWStbb0fM+ITtpJkok4kKV9NrNbCi4K/SlXezkglQG2sbFgcYK/ewkFnzaAg==",
   "success": true,
   "projectFilePath": "C:\\dziwne_rzeczy\\VScode\\sem5\\dotNet\\cos\\auction_service\\dotNetPipesTest\\AuctionHouseClient\\AuctionHouseClient.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\barte\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.12\\microsoft.netcore.app.ref.6.0.12.nupkg.sha512",
+    "C:\\Users\\barte\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.12\\microsoft.windowsdesktop.app.ref.6.0.12.nupkg.sha512",
+    "C:\\Users\\barte\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.12\\microsoft.aspnetcore.app.ref.6.0.12.nupkg.sha512",
+    "C:\\Users\\barte\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.12\\microsoft.netcore.app.host.win-x64.6.0.12.nupkg.sha512"
+  ],
   "logs": []
 }

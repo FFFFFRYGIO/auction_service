@@ -26,11 +26,11 @@ public class ShowAuctions : Base { }
 
 public class BidAuction : Base
 {
-    public int auctionId { get; set; }
-    public int bidValue { get; set; }
+    public int AuctionId { get; set; }
+    public int BidValue { get; set; }
 }
 
 public class Fund : Base
 {
-    public int value { get; set; }
+    public int Value { get; set; }
 }

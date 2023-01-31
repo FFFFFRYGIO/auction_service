@@ -137,33 +137,27 @@ namespace AuctionHouseServer
                             if (received != null)
                                 message.Message = _clientsList.Find(c => c.GetName() == pipe.GetName()).CreateAuction(
                                     received.Name, received.Value, received.Time, _auctionList);
-                            //snd = "Auction Created"; ThingsForAuction.Camera.ToString()
-                            //message.message = "Auction Created";
                             break;
                         case "ShowAuctions":
-                            //var received2 = JsonSerializer.Deserialize<ShowAuctions>(msg);
                             var send = _auctionList.PrintAllAuctions();
                             var stringList = JsonSerializer.Serialize(send);
                             message.Message = send.Any() ? "list" : "No auctions currently running!";
 
                             message.AuctionList = stringList;
-                            //Console.WriteLine(message.auctionList);
-                            //snd = JsonSerializer.Serialize(send);
                             break;
                         case "Bid":
                             var received3 = JsonSerializer.Deserialize<BidAuction>(msg);
                             if (received3 != null)
                                 message.Message = _clientsList.Find(c => c.GetName() == pipe.GetName())
-                                    .Bid(received3.auctionId, received3.bidValue, _auctionList, _clientsList);
+                                    .Bid(received3.AuctionId, received3.BidValue, _auctionList, _clientsList);
                             break;
                         case "AddFunds":
                             var received4 = JsonSerializer.Deserialize<Fund>(msg);
                             if (received4 != null)
                                 message.Message = _clientsList.Find(c => c.GetName() == pipe.GetName())
-                                    .UpdateMoney('+', received4.value);
+                                    .UpdateMoney('+', received4.Value);
                             break;
                         case "Quit":
-                            //pipe.close();
                             pipe.ToDelete = true;
                             message.Message = "Disconnected";
                             break;

@@ -85,35 +85,35 @@ namespace AuctionHouseClient
             while (_loop)
             {
                 Menu.DrawMenu(_name);
-                //msg = Console.ReadLine();
                 string ask = Menu.Select();
 
                 pipeWr.WriteString(ask);
-                //privateCommunicationPipe.WaitForPipeDrain();
                 _privateCommunicationPipe.Flush();
                 
-                if (ask == "quit")
+                if (ask == ClientActions.Quit.ToString())
                 {
                     _loop = false;
-                    //privateCommunicationPipe.Close();
                     _privateCommunicationPipe.Close();
                     _privateCommunicationPipe.Dispose();
-                    break;
-                }
-                
-                var msg = pipeWr.ReadString();
-                var reply = JsonSerializer.Deserialize<Response>(msg);
-                if (reply != null && reply.Message != "list")
-                {
-                    Console.WriteLine(reply.Message);
                 }
                 else
                 {
-                    foreach (var auctionString in JsonSerializer.Deserialize<List<string>>(reply.AuctionList))
+                    var msg = pipeWr.ReadString();
+                    var reply = JsonSerializer.Deserialize<Response>(msg);
+                    if (reply != null && reply.Message != "list")
                     {
-                        Console.WriteLine(auctionString);
+                        Console.WriteLine(reply.Message);
+                    }
+                    else
+                    {
+                        foreach (var auctionString in JsonSerializer.Deserialize<List<string>>(reply.AuctionList))
+                        {
+                            Console.WriteLine(auctionString);
+                        }
                     }
                 }
+                
+                
 
                 Console.ReadKey();
                 Console.Clear();
