@@ -8,4 +8,4 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = AuctionHouseClient
-build_property.ProjectDir = C:\Users\Radosław\RiderProjects\auction_service\dotNetPipesTest\AuctionHouseClient\
+build_property.ProjectDir = C:\dziwne_rzeczy\VScode\sem5\dotNet\cos\auction_service\dotNetPipesTest\AuctionHouseClient\

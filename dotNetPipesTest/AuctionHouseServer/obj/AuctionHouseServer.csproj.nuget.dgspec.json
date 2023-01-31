@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Radosław\\RiderProjects\\auction_service\\dotNetPipesTest\\AuctionHouseServer\\AuctionHouseServer.csproj": {}
+    "C:\\dziwne_rzeczy\\VScode\\sem5\\dotNet\\cos\\auction_service\\dotNetPipesTest\\AuctionHouseServer\\AuctionHouseServer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Radosław\\RiderProjects\\auction_service\\dotNetPipesTest\\AuctionHouseServer\\AuctionHouseServer.csproj": {
+    "C:\\dziwne_rzeczy\\VScode\\sem5\\dotNet\\cos\\auction_service\\dotNetPipesTest\\AuctionHouseServer\\AuctionHouseServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Radosław\\RiderProjects\\auction_service\\dotNetPipesTest\\AuctionHouseServer\\AuctionHouseServer.csproj",
+        "projectUniqueName": "C:\\dziwne_rzeczy\\VScode\\sem5\\dotNet\\cos\\auction_service\\dotNetPipesTest\\AuctionHouseServer\\AuctionHouseServer.csproj",
         "projectName": "AuctionHouseServer",
-        "projectPath": "C:\\Users\\Radosław\\RiderProjects\\auction_service\\dotNetPipesTest\\AuctionHouseServer\\AuctionHouseServer.csproj",
-        "packagesPath": "C:\\Users\\Radosław\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Radosław\\RiderProjects\\auction_service\\dotNetPipesTest\\AuctionHouseServer\\obj\\",
+        "projectPath": "C:\\dziwne_rzeczy\\VScode\\sem5\\dotNet\\cos\\auction_service\\dotNetPipesTest\\AuctionHouseServer\\AuctionHouseServer.csproj",
+        "packagesPath": "C:\\Users\\barte\\.nuget\\packages\\",
+        "outputPath": "C:\\dziwne_rzeczy\\VScode\\sem5\\dotNet\\cos\\auction_service\\dotNetPipesTest\\AuctionHouseServer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Radosław\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\barte\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -55,7 +55,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

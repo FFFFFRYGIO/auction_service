@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5GQVz7oQVZLSj6mOukXgibWnit4FWGOUs/2l9IsO7ofeJHoirf4nJHfoQxM6QGAsDilm9QZ+PSQq1vr0xSlAew==",
+  "dgSpecHash": "hS+lJPQ+8ubYO9TTWnb85Pr9KlM3xMSAHNBLFBV2jyv7R3QdEgd1K5mBkqFhbClMfdkabu9MB3trgakxSaQA3Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Radosław\\RiderProjects\\auction_service\\dotNetPipesTest\\AuctionHouseClient\\AuctionHouseClient.csproj",
+  "projectFilePath": "C:\\dziwne_rzeczy\\VScode\\sem5\\dotNet\\cos\\auction_service\\dotNetPipesTest\\AuctionHouseClient\\AuctionHouseClient.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

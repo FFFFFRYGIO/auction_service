@@ -4,15 +4,17 @@ using AuctionHouseClient;
 
 namespace AuctionHouseServer;
 
-public class PipeServer
+public class PipeServer : IDisposable
 {
     private NamedPipeServerStream underlyingPipe;
-    private StreamWriter sw;
+    //private StreamWriter sw;
     private readonly string pipeName;
+    public bool toDelete;
 
     public PipeServer(string pipeName)
     {
         this.pipeName = pipeName;
+        toDelete = false;
         InitPipe();
     }
 
@@ -21,10 +23,10 @@ public class PipeServer
         //Console.WriteLine(pipeName);
         underlyingPipe = new(pipeName, PipeDirection.InOut);
         await underlyingPipe.WaitForConnectionAsync();
-        sw = new StreamWriter(underlyingPipe);
+        //sw = new StreamWriter(underlyingPipe);
         
         //insta sending data
-        sw.AutoFlush = true;
+        //sw.AutoFlush = true;
     }
 
     public void WaitConnection()
@@ -53,7 +55,7 @@ public class PipeServer
                 StreamString sw = new StreamString(underlyingPipe);
                 //await sw.WriteLineAsync(message);
                 sw.WriteString(message);
-                underlyingPipe.WaitForPipeDrain();
+                //underlyingPipe.WaitForPipeDrain();
                 underlyingPipe.Flush();
             }
         }
@@ -131,11 +133,12 @@ public class PipeServer
         underlyingPipe.Close();
     }
 
-    private void Dispose()
+    public void Dispose()
     {
         try
         {
-            sw.Dispose();
+            //sw.Dispose();
+            underlyingPipe.Close();
             underlyingPipe.Dispose();
         }
         catch (Exception ex)

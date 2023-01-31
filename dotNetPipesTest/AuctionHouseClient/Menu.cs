@@ -27,9 +27,9 @@ public static class Menu
                 newAuction.Type = "create";
                 Console.Write("Input auction name ");
                 newAuction.Name = Console.ReadLine();
-                Console.WriteLine("Input auction value ");
+                Console.Write("Input auction value ");
                 newAuction.Value = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
-                Console.WriteLine("Input auction time ");
+                Console.Write("Input auction time ");
                 newAuction.Time = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
                 // CreateAuction(auctionName, auctionValue, auctionTime)
                 return JsonSerializer.Serialize(newAuction);
@@ -43,9 +43,9 @@ public static class Menu
             case "3":
                 BidAuction newBid = new BidAuction();
                 newBid.Type = "bid";
-                Console.WriteLine("Input auction id ");
+                Console.Write("Input auction id ");
                 newBid.auctionId = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
-                Console.WriteLine("Input bid amount ");
+                Console.Write("Input bid amount ");
                 newBid.bidValue = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
                 // BidAuction(auctionId, bidAmount)
                 return JsonSerializer.Serialize(newBid);
@@ -53,7 +53,7 @@ public static class Menu
             case "4":
                 Fund addFund = new Fund();
                 addFund.Type = "addfunds";
-                Console.WriteLine("Input amount ");
+                Console.Write("Input amount ");
                 addFund.value = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
                 // FundAccount(fundAmount)
                 return JsonSerializer.Serialize(addFund);
@@ -62,7 +62,7 @@ public static class Menu
                 return "quit";
                 break;
             default:
-                Console.WriteLine("Error, wrong action");
+                Console.Write("Error, wrong action");
                 return "";
                 break;
         }
