@@ -4,39 +4,37 @@ namespace AuctionHouseClient;
 
 public class StreamString
 {
-    private Stream ioStream;
-    private UnicodeEncoding streamEncoding;
+    private readonly Stream _ioStream;
+    private readonly UnicodeEncoding _streamEncoding;
 
     public StreamString(Stream ioStream)
     {
-        this.ioStream = ioStream;
-        streamEncoding = new UnicodeEncoding();
+        this._ioStream = ioStream;
+        _streamEncoding = new UnicodeEncoding();
     }
 
     public string ReadString()
     {
-        int len = 0;
+        var len = _ioStream.ReadByte() * 256;
+        len += _ioStream.ReadByte();
+        var inBuffer = new byte[len];
+        _ioStream.Read(inBuffer, 0, len);
 
-        len = ioStream.ReadByte() * 256;
-        len += ioStream.ReadByte();
-        byte[] inBuffer = new byte[len];
-        ioStream.Read(inBuffer, 0, len);
-
-        return streamEncoding.GetString(inBuffer);
+        return _streamEncoding.GetString(inBuffer);
     }
 
     public int WriteString(string outString)
     {
-        byte[] outBuffer = streamEncoding.GetBytes(outString);
-        int len = outBuffer.Length;
-        if (len > UInt16.MaxValue)
+        var outBuffer = _streamEncoding.GetBytes(outString);
+        var len = outBuffer.Length;
+        if (len > ushort.MaxValue)
         {
-            len = (int)UInt16.MaxValue;
+            len = ushort.MaxValue;
         }
-        ioStream.WriteByte((byte)(len / 256));
-        ioStream.WriteByte((byte)(len & 255));
-        ioStream.Write(outBuffer, 0, len);
-        ioStream.Flush();
+        _ioStream.WriteByte((byte)(len / 256));
+        _ioStream.WriteByte((byte)(len & 255));
+        _ioStream.Write(outBuffer, 0, len);
+        _ioStream.Flush();
 
         return outBuffer.Length + 2;
     }

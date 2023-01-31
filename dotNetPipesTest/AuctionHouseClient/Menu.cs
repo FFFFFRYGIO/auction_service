@@ -4,7 +4,7 @@ namespace AuctionHouseClient;
 
 public static class Menu
 {
-    public static void drawMenu(string clientName)
+    public static void DrawMenu(string clientName)
     {
         Console.WriteLine("Welcome {0}", clientName);
         Console.WriteLine();
@@ -40,15 +40,15 @@ public static class Menu
                 var newBid = new BidAuction();
                 newBid.Type = ClientActions.Bid.ToString();
                 Console.Write("Input auction id ");
-                newBid.auctionId = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
+                newBid.AuctionId = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
                 Console.Write("Input bid amount ");
-                newBid.bidValue = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
+                newBid.BidValue = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
                 return JsonSerializer.Serialize(newBid);
             case "4":
                 var addFund = new Fund();
                 addFund.Type = ClientActions.AddFunds.ToString();
                 Console.Write("Input amount ");
-                addFund.value = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
+                addFund.Value = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
                 return JsonSerializer.Serialize(addFund);
             case "5":
                 return ClientActions.Quit.ToString();
