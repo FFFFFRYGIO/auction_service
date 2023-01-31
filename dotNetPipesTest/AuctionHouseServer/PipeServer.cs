@@ -6,38 +6,31 @@ namespace AuctionHouseServer;
 
 public class PipeServer : IDisposable
 {
-    private NamedPipeServerStream underlyingPipe;
-    //private StreamWriter sw;
-    private readonly string pipeName;
-    public bool toDelete;
+    private NamedPipeServerStream _underlyingPipe;
+    private readonly string _pipeName;
+    public bool ToDelete;
 
     public PipeServer(string pipeName)
     {
-        this.pipeName = pipeName;
-        toDelete = false;
+        this._pipeName = pipeName;
+        ToDelete = false;
         InitPipe();
     }
 
     private async void InitPipe()
     {
-        //Console.WriteLine(pipeName);
-        underlyingPipe = new(pipeName, PipeDirection.InOut);
-        await underlyingPipe.WaitForConnectionAsync();
-        //sw = new StreamWriter(underlyingPipe);
-        
-        //insta sending data
-        //sw.AutoFlush = true;
+        _underlyingPipe = new NamedPipeServerStream(_pipeName, PipeDirection.InOut);
+        await _underlyingPipe.WaitForConnectionAsync();
     }
 
     public void WaitConnection()
     {
         try
         {
-            if (!underlyingPipe.IsConnected)
+            if (!_underlyingPipe.IsConnected)
             {
-                underlyingPipe.WaitForConnection();
+                _underlyingPipe.WaitForConnection();
             }
-            //underlyingPipe.WaitForConnection();
         }
         catch (Exception e)
         {
@@ -46,17 +39,15 @@ public class PipeServer : IDisposable
         }
     }
 
-    public async void WriteIfConnected(string message)
+    public void WriteIfConnected(string message)
     {
         try
         {
-            if (underlyingPipe.IsConnected)
+            if (_underlyingPipe.IsConnected)
             {
-                StreamString sw = new StreamString(underlyingPipe);
-                //await sw.WriteLineAsync(message);
+                StreamString sw = new StreamString(_underlyingPipe);
                 sw.WriteString(message);
-                //underlyingPipe.WaitForPipeDrain();
-                underlyingPipe.Flush();
+                _underlyingPipe.Flush();
             }
         }
         catch(Exception ex)
@@ -67,17 +58,15 @@ public class PipeServer : IDisposable
         }
     }
     
-    public async void WriteIfConnected(CommandJSON message)
+    public void WriteIfConnected(CommandJSON message)
     {
         try
         {
-            if (underlyingPipe.IsConnected)
+            if (_underlyingPipe.IsConnected)
             {
-                StreamString sw = new StreamString(underlyingPipe);
-                //await sw.WriteLineAsync(message);
+                var sw = new StreamString(_underlyingPipe);
                 sw.WriteString(JsonSerializer.Serialize(message));
-                underlyingPipe.WaitForPipeDrain();
-                underlyingPipe.Flush();
+                _underlyingPipe.Flush();
             }
         }
         catch(Exception ex)
@@ -93,7 +82,7 @@ public class PipeServer : IDisposable
         
         try
         {
-            StreamString sr = new StreamString(underlyingPipe);
+            var sr = new StreamString(_underlyingPipe);
 
             return sr.ReadString();
         }
@@ -102,44 +91,29 @@ public class PipeServer : IDisposable
             Console.WriteLine(e);
             throw;
         }
-        
-        /*
-        try
-        {
-            StreamReader sr = new StreamReader(underlyingPipe);
-
-            return sr.ReadLine();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-        */
     }
 
-    public bool isConnected()
+    public bool IsConnected()
     {
-        return underlyingPipe.IsConnected;
+        return _underlyingPipe.IsConnected;
     }
 
-    public string getName()
+    public string GetName()
     {
-        return pipeName;
+        return _pipeName;
     }
 
-    public void close()
+    public void Close()
     {
-        underlyingPipe.Close();
+        _underlyingPipe.Close();
     }
 
     public void Dispose()
     {
         try
         {
-            //sw.Dispose();
-            underlyingPipe.Close();
-            underlyingPipe.Dispose();
+            _underlyingPipe.Close();
+            _underlyingPipe.Dispose();
         }
         catch (Exception ex)
         {

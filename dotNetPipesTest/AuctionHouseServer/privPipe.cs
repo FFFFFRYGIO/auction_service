@@ -1,25 +1,25 @@
 namespace AuctionHouseServer;
 
-public class privPipe : IDisposable
+public class PrivPipe : IDisposable
 {
-    public PipeServer pipe;
-    public Task task;
-    public bool isCreated;
-    public bool isClosed;
+    public readonly PipeServer Pipe;
+    public Task Task;
+    public bool IsCreated;
+    public bool IsClosed;
 
-    public privPipe(PipeServer p)
+    public PrivPipe(PipeServer p)
     {
-        pipe = p;
-        isCreated = false;
-        isClosed = false;
+        Pipe = p;
+        IsCreated = false;
+        IsClosed = false;
     }
 
     public void Dispose()
     {
         try
         {
-            pipe.Dispose();
-            task.Dispose();
+            Pipe.Dispose();
+            Task.Dispose();
         }
         catch (Exception ex)
         {
@@ -27,7 +27,7 @@ public class privPipe : IDisposable
         }
     }
 
-    ~privPipe()
+    ~PrivPipe()
     {
         Dispose();
     }

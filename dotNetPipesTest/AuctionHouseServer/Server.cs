@@ -8,33 +8,23 @@ namespace AuctionHouseServer
     public class Server
     {
         //private static NamedPipeServerStream pipe;
-        private PipeServer pipeServer;
-        private List<privPipe> pipeServers;
+        private PipeServer _pipeServer;
+        private readonly List<PrivPipe> _pipeServers;
 
-        private AuctionList<int> auctionList;
-        private List<Client> clientsList;
+        private readonly AuctionList<int> _auctionList;
+        private readonly List<Client> _clientsList;
 
         public Server()
         {
-            pipeServer = new PipeServer("demo2pipe");
-            pipeServers = new List<privPipe>();
-            auctionList = new AuctionList<int>(1, 1);
-            clientsList = new List<Client>();
+            _pipeServer = new PipeServer("demo2pipe");
+            _pipeServers = new List<PrivPipe>();
+            _auctionList = new AuctionList<int>(1, 1);
+            _clientsList = new List<Client>();
         }
-
-        /*
-         protected async Task ExecuteAsync(CancellationToken stoppingToken) // ..
+        
+        public void Run()
         {
-            Console.WriteLine("Server is started");
-
-            //await Demo2();
-            Console.ReadKey();
-        }
-        */
-
-        public async void run()
-        {
-            Thread connecting = new Thread(ConnectClient);
+            var connecting = new Thread(ConnectClient);
             connecting.Start();
             
             ClientCommunication();
@@ -46,81 +36,71 @@ namespace AuctionHouseServer
             Console.WriteLine(Process.GetCurrentProcess().Id);
 
             string? msg;
-            bool vipClientSwitch = false;
+            var vipClientSwitch = false;
             while(true)
             {
-                if (pipeServer.isConnected())
+                if (_pipeServer.IsConnected())
                 {
-                    pipeServer.WaitConnection();
-                    //msg = Console.ReadLine();
-                    msg = pipeServer.Read();
+                    _pipeServer.WaitConnection();
+                    msg = _pipeServer.Read();
                     
-                    pipeServers.Add(new privPipe(new PipeServer(msg)));
-                    // odd vips
-                    if (!clientsList.Exists(e => e.GetName() == msg))
+                    _pipeServers.Add(new PrivPipe(new PipeServer(msg)));
+                    if (!_clientsList.Exists(e => e.GetName() == msg))
                     {
                         if (vipClientSwitch)
                         {
-                            clientsList.Add(new AuctioneerVip(2000, msg));
+                            _clientsList.Add(new AuctioneerVip(2000, msg));
                             vipClientSwitch = false;
                         }
                         else
                         {
-                            clientsList.Add(new Auctioneer(2000, msg));
+                            _clientsList.Add(new Auctioneer(2000, msg));
                             vipClientSwitch = true;
                         }
                     }
 
                     Console.WriteLine(msg);
-                    pipeServer.close();
-                    pipeServer.Dispose();
-                    pipeServer = new PipeServer("demo2pipe");
-                    //pipeServer.WaitConnection();
+                    _pipeServer.Close();
+                    _pipeServer.Dispose();
+                    _pipeServer = new PipeServer("demo2pipe");
                 }
-                //pipeServer.WriteIfConnected(msg);
-                //Console.WriteLine("server message");
                 Thread.Sleep(1000);
             }
-            //Console.ReadKey();
         }
 
         private void ClientCommunication()
         {
-            List<privPipe> toDelete = new List<privPipe>();
+            var toDelete = new List<PrivPipe>();
             while (true)
             {
-                auctionList.CloseAuctions(clientsList);
-                foreach (var pipeServer in pipeServers)
+                _auctionList.CloseAuctions(_clientsList);
+                foreach (var pipeServer in _pipeServers)
                 {
-                    if (false) //pipeServer.isCreated
+                    if (!pipeServer.IsCreated)
                     {
-                        Console.WriteLine("Client: " + pipeServer.pipe.getName() + " status: " + pipeServer.task.Status);
-                    }
-                    if (!pipeServer.isCreated)
-                    {
-                        pipeServer.task = new Task(() =>
+                        pipeServer.Task = new Task(() =>
                         {
-                            communicate(pipeServer.pipe);
+                            Communicate(pipeServer.Pipe);
                         });
                         
-                        pipeServer.task.Start();
-                        pipeServer.isCreated = true;
+                        pipeServer.Task.Start();
+                        pipeServer.IsCreated = true;
                     }
-                    else if (pipeServer.task.Status != TaskStatus.Running && pipeServer.task.Status != TaskStatus.WaitingForActivation
-                             && pipeServer.task.Status != TaskStatus.WaitingToRun)
+                    else if (pipeServer.Task.Status != TaskStatus.Running && pipeServer.Task.Status != TaskStatus.WaitingForActivation
+                             && pipeServer.Task.Status != TaskStatus.WaitingToRun)
                     {
-                        pipeServer.task.Dispose();
-                        if (pipeServer.pipe.isConnected() &&
-                            !pipeServer.pipe.toDelete)
+                        pipeServer.Task.Dispose();
+                        if (pipeServer.Pipe.IsConnected() &&
+                            !pipeServer.Pipe.ToDelete)
                         {
-                            pipeServer.task = new Task(() =>
+                            pipeServer.Task = new Task(() =>
                             {
-                                communicate(pipeServer.pipe);
+                                Communicate(pipeServer.Pipe);
                             });
                         
-                            pipeServer.task.Start();
+                            pipeServer.Task.Start();
                         }
-                        else if(pipeServer.pipe.toDelete)
+                        else if(pipeServer.Pipe.ToDelete)
                         {
                             toDelete.Add(pipeServer);
                         }
@@ -130,7 +110,7 @@ namespace AuctionHouseServer
 
                 foreach (var privPipe in toDelete)
                 {
-                    pipeServers.Remove(privPipe);
+                    _pipeServers.Remove(privPipe);
                     privPipe.Dispose();
                 }
                 toDelete.Clear();
@@ -139,59 +119,55 @@ namespace AuctionHouseServer
             }
         }
 
-        private async Task communicate(PipeServer pipe)
+        private async Task Communicate(PipeServer pipe)
         {
-            string msg;
-            if (pipe.isConnected() && !pipe.toDelete)
+            if (pipe.IsConnected() && !pipe.ToDelete)
             {
                 pipe.WaitConnection();
-                msg = pipe.Read();
-                Response message = new Response();
+                var msg = pipe.Read();
+                var message = new Response();
                 
                 var rec = JsonSerializer.Deserialize<Base>(msg);
 
-                switch (rec.Type)
-                {
-                    case "create":
-                        var received = JsonSerializer.Deserialize<CreateAuction>(msg);
-                        message.message = clientsList.Find(c => c.GetName() == pipe.getName()).CreateAuction(
-                            received.Name, received.Value, received.Time, auctionList);
-                        //snd = "Auction Created"; ThingsForAuction.Camera.ToString()
-                        //message.message = "Auction Created";
-                        break;
-                    case "showauctions":
-                        //var received2 = JsonSerializer.Deserialize<ShowAuctions>(msg);
-                        List<string> send = auctionList.PrintAllAuctions();
-                        string stringList = JsonSerializer.Serialize(send);
-                        if (send.Count() > 0)
-                        {
-                            message.message = "list";
-                        }
-                        else
-                        {
-                            message.message = "No auctions currently running!";
-                        }
-                        message.auctionList = stringList;
-                        //Console.WriteLine(message.auctionList);
-                        //snd = JsonSerializer.Serialize(send);
-                        break;
-                    case "bid":
-                        var received3 = JsonSerializer.Deserialize<BidAuction>(msg);
-                        message.message = clientsList.Find(c => c.GetName() == pipe.getName()).Bid(received3.auctionId, received3.bidValue,auctionList,clientsList);
-                        break;
-                    case "addfunds":
-                        var received4 = JsonSerializer.Deserialize<Fund>(msg);
-                        message.message = clientsList.Find(c => c.GetName() == pipe.getName()).UpdateMoney('+', received4.value);
-                        break;
-                    case "quit":
-                        //pipe.close();
-                        pipe.toDelete = true;
-                        message.message = "Disconnected";
-                        break;
-                }
-                //message.message = "msg";
-                //Console.WriteLine("From: " + pipe.getName() + " " + msg);
-                //pipe.WriteIfConnected("From: " + pipe.getName() + " " + msg);
+                if (rec != null)
+                    switch (rec.Type)
+                    {
+                        case "Create":
+                            var received = JsonSerializer.Deserialize<CreateAuction>(msg);
+                            if (received != null)
+                                message.Message = _clientsList.Find(c => c.GetName() == pipe.GetName()).CreateAuction(
+                                    received.Name, received.Value, received.Time, _auctionList);
+                            //snd = "Auction Created"; ThingsForAuction.Camera.ToString()
+                            //message.message = "Auction Created";
+                            break;
+                        case "ShowAuctions":
+                            //var received2 = JsonSerializer.Deserialize<ShowAuctions>(msg);
+                            var send = _auctionList.PrintAllAuctions();
+                            var stringList = JsonSerializer.Serialize(send);
+                            message.Message = send.Any() ? "list" : "No auctions currently running!";
+
+                            message.AuctionList = stringList;
+                            //Console.WriteLine(message.auctionList);
+                            //snd = JsonSerializer.Serialize(send);
+                            break;
+                        case "Bid":
+                            var received3 = JsonSerializer.Deserialize<BidAuction>(msg);
+                            if (received3 != null)
+                                message.Message = _clientsList.Find(c => c.GetName() == pipe.GetName())
+                                    .Bid(received3.auctionId, received3.bidValue, _auctionList, _clientsList);
+                            break;
+                        case "AddFunds":
+                            var received4 = JsonSerializer.Deserialize<Fund>(msg);
+                            if (received4 != null)
+                                message.Message = _clientsList.Find(c => c.GetName() == pipe.GetName())
+                                    .UpdateMoney('+', received4.value);
+                            break;
+                        case "Quit":
+                            //pipe.close();
+                            pipe.ToDelete = true;
+                            message.Message = "Disconnected";
+                            break;
+                    }
                 pipe.WriteIfConnected(JsonSerializer.Serialize(message));
             }
         }
