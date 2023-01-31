@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using Regex = System.Text.RegularExpressions.Regex;
+﻿using Regex = System.Text.RegularExpressions.Regex;
 
 namespace ConsoleApplication1
 {
-    public class Auction : IValidateName, IDisposable
+    public sealed class Auction : IValidateName, IDisposable
     {
         public readonly int Id;
-        public string Name;
+        public readonly string Name;
         public int Cost;
-        public int OwnerId;
+        public readonly int OwnerId;
         public int? WinnerId;
         public DateTime TimeToEnd;
         
-        private bool disposed = false;
+        private bool _disposed;
 
         public Auction(int id, string name, int cost, int auctionTime, int ownerId)
         {
@@ -42,19 +40,19 @@ namespace ConsoleApplication1
                 if (WinnerId == null)
                 {
                     WinnerId = clientId;
-                    clientsList.Find(c => c.GetId() == clientId).UpdateMoney('-', amount);
+                    clientsList.Find(c => c.GetId() == clientId)?.UpdateMoney('-', amount);
                     Console.WriteLine("Client {0} successfully executed first bid for auction {1}", clientId, Id);
                 }
                 else if (!Equals(clientId, WinnerId))
                 {
-                    clientsList.Find(c => c.GetId() == clientId).UpdateMoney('-', amount);
-                    clientsList.Find(c => c.GetId() == WinnerId).UpdateMoney('+', Cost);
+                    clientsList.Find(c => c.GetId() == clientId)?.UpdateMoney('-', amount);
+                    clientsList.Find(c => c.GetId() == WinnerId)?.UpdateMoney('+', Cost);
                     WinnerId = clientId;
                     Console.WriteLine("Client {0} successfully bid auction {1}", clientId, Id);
                 }
                 else
                 {
-                    clientsList.Find(c => c.GetId() == clientId).UpdateMoney('-', amount - Cost);
+                    clientsList.Find(c => c.GetId() == clientId)?.UpdateMoney('-', amount - Cost);
                     Console.WriteLine("Client {0} bid his own price {1}", clientId, Id);
                 }
                 Cost = amount;
@@ -80,13 +78,13 @@ namespace ConsoleApplication1
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
-        
-        protected virtual void Dispose(bool disposing)
+
+        private void Dispose(bool disposing)
         {
             
-            if(!this.disposed)
+            if(!_disposed)
             {
-                disposed = true;
+                _disposed = true;
             }
         }
 

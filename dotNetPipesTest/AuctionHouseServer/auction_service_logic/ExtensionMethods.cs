@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace ConsoleApplication1
+﻿namespace ConsoleApplication1
 {
     public static class ExtensionMethods
     {
