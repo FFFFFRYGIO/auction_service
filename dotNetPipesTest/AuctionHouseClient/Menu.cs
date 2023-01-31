@@ -19,52 +19,42 @@ public static class Menu
     public static string Select()
     {
         Console.Write("Input action: ");
-        string action = (Console.ReadLine() ?? string.Empty);
+        var action = (Console.ReadLine() ?? string.Empty);
         switch (action)
         {
             case "1":
-                CreateAuction newAuction = new CreateAuction();
-                newAuction.Type = "create";
+                var newAuction = new CreateAuction();
+                newAuction.Type = ClientActions.Create.ToString();
                 Console.Write("Input auction name ");
-                newAuction.Name = Console.ReadLine();
+                newAuction.Name = Console.ReadLine() ?? string.Empty;
                 Console.Write("Input auction value ");
                 newAuction.Value = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
                 Console.Write("Input auction time ");
                 newAuction.Time = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
-                // CreateAuction(auctionName, auctionValue, auctionTime)
                 return JsonSerializer.Serialize(newAuction);
-                break;
             case "2":
-                // ShowAuctions()
-                ShowAuctions order = new ShowAuctions();
-                order.Type = "showauctions";
+                var order = new ShowAuctions();
+                order.Type = ClientActions.ShowAuctions.ToString();
                 return JsonSerializer.Serialize(order);
-                break;
             case "3":
-                BidAuction newBid = new BidAuction();
-                newBid.Type = "bid";
+                var newBid = new BidAuction();
+                newBid.Type = ClientActions.Bid.ToString();
                 Console.Write("Input auction id ");
                 newBid.auctionId = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
                 Console.Write("Input bid amount ");
                 newBid.bidValue = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
-                // BidAuction(auctionId, bidAmount)
                 return JsonSerializer.Serialize(newBid);
-                break;
             case "4":
-                Fund addFund = new Fund();
-                addFund.Type = "addfunds";
+                var addFund = new Fund();
+                addFund.Type = ClientActions.AddFunds.ToString();
                 Console.Write("Input amount ");
                 addFund.value = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
-                // FundAccount(fundAmount)
                 return JsonSerializer.Serialize(addFund);
-                break;
             case "5":
-                return "quit";
-                break;
+                return ClientActions.Quit.ToString();
             default:
                 Console.Write("Error, wrong action");
-                return "";
-                break;
+                return ClientActions.Error.ToString();
         }
     }
 }
