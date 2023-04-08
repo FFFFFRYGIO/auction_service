@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuctionHouseServer", "AuctionHouseServer\AuctionHouseServer.csproj", "{2253079C-F542-420F-B607-20F66281970C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuctionHouseClient", "AuctionHouseClient\AuctionHouseClient.csproj", "{02DAF782-0EFB-4D3A-A85B-3D247FC89B9A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2253079C-F542-420F-B607-20F66281970C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2253079C-F542-420F-B607-20F66281970C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2253079C-F542-420F-B607-20F66281970C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2253079C-F542-420F-B607-20F66281970C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02DAF782-0EFB-4D3A-A85B-3D247FC89B9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02DAF782-0EFB-4D3A-A85B-3D247FC89B9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02DAF782-0EFB-4D3A-A85B-3D247FC89B9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02DAF782-0EFB-4D3A-A85B-3D247FC89B9A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
