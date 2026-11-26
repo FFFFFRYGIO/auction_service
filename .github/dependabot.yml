@@ -1,0 +1,24 @@
+# Dependabot version updates + grouped security updates
+# Docs: https://docs.github.com/code-security/dependabot/working-with-dependabot/dependabot-options-reference
+version: 2
+updates:
+  - package-ecosystem: "nuget"
+    directories:
+      - "/"
+      - "/AuctionHouseClient"
+      - "/AuctionHouseServer"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Europe/Warsaw"
+    open-pull-requests-limit: 10
+    groups:
+      nuget-version-updates:
+        applies-to: version-updates
+        patterns:
+          - "*"
+      nuget-security-updates:
+        applies-to: security-updates
+        patterns:
+          - "*"
